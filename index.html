@@ -411,13 +411,14 @@ form.addEventListener('submit', function(e){
 <script>
 window.addEventListener('DOMContentLoaded', () => {
     let currentImg = 0;
-    const images = Array.from(document.querySelectorAll('.gallery img'));
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     let startX = 0;
     let endX = 0;
 
     window.openLightbox = function(img) {
+      const gallery = img.closest('.gallery');
+       images = Array.from(gallery.querySelectorAll('img'));
         currentImg = images.indexOf(img);
         lightboxImg.src = img.src;
         lightbox.style.display = "flex";
