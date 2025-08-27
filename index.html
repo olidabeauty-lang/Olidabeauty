@@ -299,6 +299,38 @@ form.addEventListener('submit', function(e){
   window.open(url, '_blank');
 });
 </script>
+</script>
+<div id="lightbox" onclick="closeLightbox()">
+  <span id="prev" onclick="changeSlide(-1)">&#10094;</span>
+  <img id="lightbox-img" src="">
+  <span id="next" onclick="changeSlide(1)">&#10095;</span>
+</div>
+<script>
+let currentImg = null;
+let images = [];
 
+function openLightbox(img) {
+  images = Array.from(img.parentElement.querySelectorAll('img'));
+  currentImg = images.indexOf(img);
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').style.display = 'flex';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+}
+
+function changeSlide(n) {
+  currentImg += n;
+  if (currentImg < 0) currentImg = images.length - 1;
+  if (currentImg >= images.length) currentImg = 0;
+  document.getElementById('lightbox-img').src = images[currentImg].src;
+}
+
+// Parandalon klikun e arrows të mbyllë lightbox
+document.getElementById('prev').addEventListener('click', e => e.stopPropagation());
+document.getElementById('next').addEventListener('click', e => e.stopPropagation());
+</script>
+  
 </body>
 </html>
