@@ -396,70 +396,51 @@ form.addEventListener('submit', function(e){
 ">
     <img id="lightbox-img" src="" alt="" style="max-width:90%; max-height:90%;">
 </div>
-let currentImg = null;
-let images = [];
 
-function openLightbox(img) {
-  images = Array.from(img.parentElement.querySelectorAll('img'));
-  currentImg = images.indexOf(img);
-  document.getElementById('lightbox-img').src = img.src;
-  document.getElementById('lightbox').style.display = 'flex';
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').style.display = 'none';
-}
-
-let currentImg = 0;
-const images = Array.from(document.querySelectorAll('img[onclick^="openLightbox"]'));
-
-function openLightbox(img) {
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    let currentImg = 0;
+    const images = Array.from(document.querySelectorAll('.gallery img'));
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
+    let startX = 0;
+    let endX = 0;
 
-    currentImg = images.indexOf(img);
-    lightboxImg.src = img.src;
-    lightbox.style.display = "flex";
-    document.body.classList.add("no-scroll");
-}
+    window.openLightbox = function(img) {
+        currentImg = images.indexOf(img);
+        lightboxImg.src = img.src;
+        lightbox.style.display = "flex";
+        document.body.classList.add("no-scroll");
+    }
 
-// Klik jashtë fotos mbyll lightbox
-function closeLightbox() {
-    const lightbox = document.getElementById("lightbox");
-    lightbox.style.display = "none";
-    document.body.classList.remove("no-scroll");
-}
+    window.closeLightbox = function() {
+        lightbox.style.display = "none";
+        document.body.classList.remove("no-scroll");
+    }
 
-// Swipe me gisht
-let startX = 0;
-let endX = 0;
-const lightboxImg = document.getElementById("lightbox-img");
+    // Swipe me gisht
+    lightboxImg.addEventListener("touchstart", e => startX = e.touches[0].clientX, {passive:true});
+    lightboxImg.addEventListener("touchmove", e => endX = e.touches[0].clientX, {passive:true});
+    lightboxImg.addEventListener("touchend", e => {
+        const diff = startX - endX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) { nextImg(); } 
+            else { prevImg(); }
+        }
+    });
 
-lightboxImg.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-}, {passive:true});
+    function nextImg() {
+        currentImg = (currentImg + 1) % images.length;
+        lightboxImg.src = images[currentImg].src;
+    }
 
-lightboxImg.addEventListener("touchmove", e => {
-    endX = e.touches[0].clientX;
-}, {passive:true});
-
-lightboxImg.addEventListener("touchend", e => {
-    const diff = startX - endX;
-    if (Math.abs(diff) > 50) { // threshold për swipe
-        if (diff > 0) { nextImg(); } // swipe majtas -> foto tjetër
-        else { prevImg(); }          // swipe djathtas -> foto më parë
+    function prevImg() {
+        currentImg = (currentImg - 1 + images.length) % images.length;
+        lightboxImg.src = images[currentImg].src;
     }
 });
+</script>
 
-function nextImg() {
-    currentImg = (currentImg + 1) % images.length;
-    lightboxImg.src = images[currentImg].src;
-}
-
-function prevImg() {
-    currentImg = (currentImg - 1 + images.length) % images.length;
-    lightboxImg.src = images[currentImg].src;
-}
   
 </body>
 </html>
