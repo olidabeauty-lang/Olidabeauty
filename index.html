@@ -402,17 +402,56 @@ function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
 }
 
-function changeSlide(n) {
-  currentImg += n;
-  if (currentImg < 0) currentImg = images.length - 1;
-  if (currentImg >= images.length) currentImg = 0;
-  document.getElementById('lightbox-img').src = images[currentImg].src;
+let currentImg = 0;
+const images = Array.from(document.querySelectorAll('img[onclick^="openLightbox"]'));
+
+function openLightbox(img) {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    currentImg = images.indexOf(img);
+    lightboxImg.src = img.src;
+    lightbox.style.display = "flex";
+    document.body.classList.add("no-scroll");
 }
 
-// Parandalon klikun e arrows të mbyllë lightbox
-document.getElementById('prev').addEventListener('click', e => e.stopPropagation());
-document.getElementById('next').addEventListener('click', e => e.stopPropagation());
-</script>
+// Klik jashtë fotos mbyll lightbox
+function closeLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    lightbox.style.display = "none";
+    document.body.classList.remove("no-scroll");
+}
+
+// Swipe me gisht
+let startX = 0;
+let endX = 0;
+const lightboxImg = document.getElementById("lightbox-img");
+
+lightboxImg.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+}, {passive:true});
+
+lightboxImg.addEventListener("touchmove", e => {
+    endX = e.touches[0].clientX;
+}, {passive:true});
+
+lightboxImg.addEventListener("touchend", e => {
+    const diff = startX - endX;
+    if (Math.abs(diff) > 50) { // threshold për swipe
+        if (diff > 0) { nextImg(); } // swipe majtas -> foto tjetër
+        else { prevImg(); }          // swipe djathtas -> foto më parë
+    }
+});
+
+function nextImg() {
+    currentImg = (currentImg + 1) % images.length;
+    lightboxImg.src = images[currentImg].src;
+}
+
+function prevImg() {
+    currentImg = (currentImg - 1 + images.length) % images.length;
+    lightboxImg.src = images[currentImg].src;
+}
   
 </body>
 </html>
