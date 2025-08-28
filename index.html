@@ -481,16 +481,16 @@ function showImg(index) {
     // jemi në fillim, bëj animacion "bounce"
     lightboxImg.style.transform = "translateX(40px)";
     setTimeout(() => lightboxImg.style.transform = "translateX(0)", 200);
-    return;
+    return; //Mos ndrysho foton
   }
 
   if (index >= images.length) {
     // jemi në fund, bëj animacion "bounce"
     lightboxImg.style.transform = "translateX(-40px)";
     setTimeout(() => lightboxImg.style.transform = "translateX(0)", 200);
-    return;
+    return; //Mos ndrysho foton
   }
-
+//Vetem nese eshte midis kufijve ndrysho foton
   currentIndex = index;
   lightboxImg.src = images[currentIndex];
 }
