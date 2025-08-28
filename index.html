@@ -218,7 +218,9 @@ body.no-scroll { overflow: hidden; }
     max-height: 90%;
     margin: auto;
 }
-
+#lightbox-img {
+  transition: transform 0.3s ease;
+}
 </style>
 </head>
 <body>
@@ -451,17 +453,47 @@ window.addEventListener('DOMContentLoaded', () => {
             else { prevImg(); }
         }
     });
+function showImg(index) {
+    const lightboxImg = document.getElementById('lightbox-img');
+    const newImg = images[index];
+    if (!newImg) return;
 
+    lightboxImg.style.opacity = 0; // fade-out
+    setTimeout(() => {
+        lightboxImg.src = newImg.src;
+        lightboxImg.style.opacity = 1; // fade-in
+    }, 250); // gjysma e kohës së transition
+}
     function nextImg() {
         currentImg = (currentImg + 1) % images.length;
-        lightboxImg.src = images[currentImg].src;
+        showImg=(currentImg) ;
     }
 
     function prevImg() {
         currentImg = (currentImg - 1 + images.length) % images.length;
-        lightboxImg.src = images[currentImg].src;
+        showImg = (currentImg) ;
     }
 });
+  function showImage(index) {
+  const lightboxImg = document.getElementById("lightbox-img");
+
+  if (index < 0) {
+    // jemi në fillim, bëj animacion "bounce"
+    lightboxImg.style.transform = "translateX(40px)";
+    setTimeout(() => lightboxImg.style.transform = "translateX(0)", 200);
+    return;
+  }
+
+  if (index >= images.length) {
+    // jemi në fund, bëj animacion "bounce"
+    lightboxImg.style.transform = "translateX(-40px)";
+    setTimeout(() => lightboxImg.style.transform = "translateX(0)", 200);
+    return;
+  }
+
+  currentIndex = index;
+  lightboxImg.src = images[currentIndex];
+}
 </script>
   
 </body>
