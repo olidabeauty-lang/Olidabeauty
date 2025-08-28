@@ -208,6 +208,16 @@ body.no-scroll { overflow: hidden; }
   cursor: pointer;
   transition: transform 0.15s;
 }
+  .lightbox-slider {
+    display: flex;
+    transition: transform 0.4s ease;
+}
+
+.lightbox-slider img {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+}
 
 </style>
 </head>
@@ -393,6 +403,7 @@ form.addEventListener('submit', function(e){
 });
 </script>
 </script>
+  <div class="lightbox-slider">
 <div id="lightbox" onclick="closeLightbox()" style="
     display:none;
     position:fixed;
