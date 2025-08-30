@@ -320,7 +320,7 @@ function closeLightbox() {
 }
 
 function showPhotoFade(index){
-  albumImg.style.transition = "opacity 0.5s ease";
+  albumImg.style.transition = "opacity 0s ease";
   albumImg.style.opacity = 0;
   setTimeout(()=>{
     albumImg.src = currentAlbum[index];
@@ -333,7 +333,7 @@ function nextPhotoBounce(){
     currentIndex++;
     showPhotoFade(currentIndex);
   } else {
-    albumImg.style.transition = "transform 0.3s";
+    albumImg.style.transition = "transform 0.1s";
     albumImg.style.transform = "translateX(-20px)";
     setTimeout(()=>albumImg.style.transform="translateX(0)",300);
   }
@@ -344,7 +344,7 @@ function prevPhotoBounce(){
     currentIndex--;
     showPhotoFade(currentIndex);
   } else {
-    albumImg.style.transition = "transform 0.3s";
+    albumImg.style.transition = "transform 0.1s";
     albumImg.style.transform = "translateX(20px)";
     setTimeout(()=>albumImg.style.transform="translateX(0)",300);
   }
