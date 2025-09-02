@@ -319,13 +319,20 @@ function closeLightbox() {
   window.scrollTo(0, scrollTop);
 }
 
-function showPhotoFade(index){
-  albumImg.style.transition = "opacity 0s ease";
-  albumImg.style.opacity = 0;
-  setTimeout(()=>{
+function showPhotoFade(index) {
+  // vendos tranzicionin
+  albumImg.style.transition = "opacity 0.4s ease";
+  albumImg.style.opacity = 0; // fade-out
+
+  // kur mbaron fade-out → ndërron src dhe bën fade-in
+  albumImg.addEventListener("transitionend", function handler() {
+    albumImg.removeEventListener("transitionend", handler);
+
     albumImg.src = currentAlbum[index];
-    albumImg.style.opacity = 1;
-  },500);
+    albumImg.onload = () => {
+      albumImg.style.opacity = 1; // fade-in
+    };
+  });
 }
 
 function nextPhotoBounce(){
